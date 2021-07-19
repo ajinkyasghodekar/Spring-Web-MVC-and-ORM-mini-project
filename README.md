@@ -4,6 +4,8 @@
 
 - Database MySQL
 
+- Server Apache Tomcat 9.0
+
 - IDE Spring Tool Suite (STS)
 
 - This mini project contains simple crud operations using Spring web mvc and Spring ORM.
