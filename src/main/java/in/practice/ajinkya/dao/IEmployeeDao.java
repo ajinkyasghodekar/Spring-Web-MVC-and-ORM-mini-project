@@ -1,5 +1,7 @@
 package in.practice.ajinkya.dao;
 
-public interface IEmployeeDao {
+import in.practice.ajinkya.model.Employee;
 
+public interface IEmployeeDao {
+	Integer saveEmployee(Employee emp);
 }

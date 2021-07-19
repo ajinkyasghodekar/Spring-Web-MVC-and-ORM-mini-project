@@ -1,5 +1,8 @@
 package in.practice.ajinkya.service;
 
-public interface IEmployeeService {
+import in.practice.ajinkya.model.Employee;
 
+public interface IEmployeeService {
+	
+	Integer saveEmployee(Employee emp);
 }

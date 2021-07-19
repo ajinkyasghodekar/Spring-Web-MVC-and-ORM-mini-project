@@ -5,6 +5,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import in.practice.ajinkya.dao.IEmployeeDao;
+import in.practice.ajinkya.model.Employee;
 
 @Repository
 public class EmployeeDaoImpl implements IEmployeeDao {
@@ -12,5 +13,8 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	@Autowired
 	private HibernateTemplate ht; //HAS-A
 	
-	
+	public Integer saveEmployee(Employee emp) {
+		return (Integer) ht.save(emp);
+	}
 }
+
