@@ -1,5 +1,7 @@
 package in.practice.ajinkya.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,7 @@ import in.practice.ajinkya.service.IEmployeeService;
 public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Autowired
-	private IEmployeeDao dao; //HSA-S
+	private IEmployeeDao dao; //HAS-S
 	
 	@Transactional
 	public Integer saveEmployee(Employee emp) {
@@ -25,5 +27,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		/*int id = dao.saveEmployee(emp);
 		return id;*/
 		return dao.saveEmployee(emp);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Employee> getAllEmployees() {
+		List<Employee> list = dao.getAllEmployees();
+		/*Collections.sort(
+				list, 
+				(e1,e2)->e1.getEmpName().compareTo(e2.getEmpName())
+				);*/
+		
+		return list;
+	}
+	
+	@Transactional
+	public void deleteEmployee(Integer id) {
+		dao.deleteEmployee(id);
 	}
 }

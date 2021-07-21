@@ -1,5 +1,7 @@
 package in.practice.ajinkya.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import in.practice.ajinkya.model.Employee;
 import in.practice.ajinkya.service.IEmployeeService;
@@ -45,9 +48,33 @@ public class EmployeeController {
 	
 	
 	//3. display all Records
+	@GetMapping("/all")
+	public String displayAll(Model model) {
+		//fetching data from SL
+		List<Employee> emps =  service.getAllEmployees();
+		//send data to UI
+		model.addAttribute("list", emps);
+		//Goto UI Page
+		return "EmployeeData";
+	}
 	
 	
 	//4. delete record
+	@GetMapping("/delete")
+	public String deleteEmp( //read input
+			@RequestParam("id") Integer id,
+			Model model
+			) 
+	{
+		//call service
+		service.deleteEmployee(id);
+		//create message
+		String message = "Employee '"+id+"' Deleted!";
+		//send message to UI
+		model.addAttribute("message", message);
+		//goto UI Page
+		return "EmployeeMessage";
+	}
 	
 	
 	//5. show data in edit page
