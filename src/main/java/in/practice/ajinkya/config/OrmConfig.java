@@ -39,7 +39,7 @@ public class OrmConfig {
 		sf.setDataSource(dsObj());
 		sf.setHibernateProperties(props());
 		//ORM Model class package name
-		sf.setPackagesToScan("in.practice.ajinkya.model");
+		sf.setPackagesToScan("in.nareshit.raghu.model");
 		return sf;
 	}
 	
@@ -59,6 +59,7 @@ public class OrmConfig {
 		ht.setSessionFactory(sfObj().getObject());
 		return ht;
 	}
+	
 	
 	//4. HTxM
 	@Bean
