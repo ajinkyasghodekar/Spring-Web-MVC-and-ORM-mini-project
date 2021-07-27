@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import in.practice.ajinkya.model.Employee;
 import in.practice.ajinkya.service.IEmployeeService;
@@ -20,14 +21,14 @@ public class EmployeeController {
 
 	@Autowired
 	private IEmployeeService service;
-	
+
 	//1. show register page
 	@GetMapping("/register")
 	public String showRegister() {
 		return "EmployeeRegister";
 	}
-	
-	
+
+
 	//2. On submit read Form data and save
 	//Link URL : save + POST
 	@PostMapping("/save")
@@ -45,68 +46,83 @@ public class EmployeeController {
 		//goto UI page
 		return "EmployeeRegister";
 	}
+
+
 	//3. display all Records
-		@GetMapping("/all")
-		public String displayAll(Model model) {
-			//fetching data from SL
-			List<Employee> emps =  service.getAllEmployees();
-			//send data to UI
-			model.addAttribute("list", emps);
-			//Goto UI Page
-			return "EmployeeData";
-		}
-
-
-		//4. delete record
-		@GetMapping("/delete")
-		public String deleteEmp( //read input
-				@RequestParam("id") Integer id,
-				Model model
-				) 
-		{
-			//call service
-			service.deleteEmployee(id);
-			//create message
-			String message = "Employee '"+id+"' Deleted!";
-			//send message to UI
-			model.addAttribute("message", message);
-			//goto UI Page
-			return "EmployeeMessage";
-		}
-
-
-		//5. show data in edit page
-		@GetMapping("/edit")
-		public String showEdit(
-				@RequestParam("id") Integer id,
-				Model model
-				) 
-		{
-			//call service with id input returns employee object
-			Employee employee = service.getOneEmployee(id);
-
-			//send object to UI(FORM FILLING)
-			model.addAttribute("employee", employee);
-
-			//goto UI PAGE
-			return "EmployeeEdit";
-		}
-
-
-		//6. do Update on submit
-		@PostMapping("/update")	
-		public String doUpdate(
-				@ModelAttribute("employee") Employee emp, //Read Form Data
-				Model model //send data to UI
-				) 
-		{
-			service.updateEmployee(emp);
-			String message = "Employee '"+emp.getEmpId()+"' Updated!";
-			//send message to UI
-			model.addAttribute("message", message);
-			//goto UI Page
-			return "EmployeeMessage";
-		}
-
-
+	@GetMapping("/all")
+	public String displayAll(Model model) {
+		//fetching data from SL
+		List<Employee> emps =  service.getAllEmployees();
+		//send data to UI
+		model.addAttribute("list", emps);
+		//Goto UI Page
+		return "EmployeeData";
 	}
+
+
+	//4. delete record
+	@GetMapping("/delete")
+	public String deleteEmp( //read input
+			@RequestParam("id") Integer id,
+			Model model
+			) 
+	{
+		//call service
+		service.deleteEmployee(id);
+		//create message
+		String message = "Employee '"+id+"' Deleted!";
+		//send message to UI
+		model.addAttribute("message", message);
+		//goto UI Page
+		return "EmployeeMessage";
+	}
+
+
+	//5. show data in edit page
+	@GetMapping("/edit")
+	public String showEdit(
+			@RequestParam("id") Integer id,
+			Model model
+			) 
+	{
+		//call service with id input returns employee object
+		Employee employee = service.getOneEmployee(id);
+
+		//send object to UI(FORM FILLING)
+		model.addAttribute("employee", employee);
+
+		//goto UI PAGE
+		return "EmployeeEdit";
+	}
+
+
+	//6. do Update on submit
+	@PostMapping("/update")	
+	public String doUpdate(
+			@ModelAttribute("employee") Employee emp, //Read Form Data
+			Model model //send data to UI
+			) 
+	{
+		service.updateEmployee(emp);
+		String message = "Employee '"+emp.getEmpId()+"' Updated!";
+		//send message to UI
+		model.addAttribute("message", message);
+		//goto UI Page
+		return "EmployeeMessage";
+	}
+
+	//7. AJAX validation
+	@GetMapping("/validate")
+	@ResponseBody
+	public String validateName(
+			@RequestParam("name") String empName
+			) 
+	{
+		String message = "";
+		if(service.getEmpnameCount(empName)>0) {
+			message = "Employee Name " + empName + " already exist!";
+		} 
+		return message; //return type is not page name
+	}
+
+}
