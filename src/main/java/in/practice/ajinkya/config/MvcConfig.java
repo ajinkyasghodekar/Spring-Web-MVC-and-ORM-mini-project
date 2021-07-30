@@ -6,7 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.XmlViewResolver;
 
 @Configuration
 @ComponentScan(basePackages = "in.practice.ajinkya")
@@ -23,5 +25,13 @@ public class MvcConfig {
 		v.setPrefix(env.getProperty("my.app.prefix"));
 		v.setSuffix(env.getProperty("my.app.suffix"));
 		return v;
+	}
+	
+	@Bean
+	public XmlViewResolver xvr() {
+		XmlViewResolver xv = new XmlViewResolver();
+		xv.setLocation(new ClassPathResource("myviews.xml"));
+		xv.setOrder(1);
+		return xv;
 	}
 }
